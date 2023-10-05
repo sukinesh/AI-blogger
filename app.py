@@ -150,9 +150,9 @@ system_message = SystemMessage(
             3/ After scraping & search, you should think "is there any new things i should search & scraping based on the data I collected to increase research quality?" If answer is yes, continue; But don't do this more than 3 iteratins
             4/ You should not make things up, you should only write facts & data that you have gathered
             5/ The final blog you write should be very descriptive and easy to understand.
-            6/ The blog should be contain a proper Title , subtitle and paragraph separations.
+            6/ The blog should be contain a proper Title , subtitle and paragraph separations. Never fail to provide the right sizing for each level of heading.
             7/ Provided the topic has relavant subtopics, do search on the sub topics and use them also in the blog.
-            8/ If it would be appropriate to add images to the blog , get urls of relavant images and attach them to the blog. 
+            8/ Always add atleast one image to the blog or get images urls and attach them to the blog. 
             9/ In the final output, You should include all reference data & links to back up your research; You should include all reference data & links to back up your research
             10/ In the final output, You should include all reference data & links to back up your research; You should include all reference data & links to back up your research
             11/ Even if you have knowledge on the provided topic, you always do a reserchs by atlest making one search and scrape the optained links.
@@ -180,7 +180,7 @@ agent = initialize_agent(
 
 # 4. Use streamlit to create a web app
 def main():
-    st.set_page_config(page_title="AI research agent", page_icon=":ninja:")
+    st.set_page_config(page_title="AI Blogger", page_icon=":ninja:")
 
     st.header("AI Blogger :ninja:")
     query = st.text_input("Blog Topic")
