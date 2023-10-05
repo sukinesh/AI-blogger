@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-from langchain import PromptTemplate
+from langchain.prompts import PromptTemplate
 from langchain.agents import initialize_agent, Tool
 from langchain.agents import AgentType
 from langchain.chat_models import ChatOpenAI
@@ -17,6 +17,8 @@ import requests
 import json
 from langchain.schema import SystemMessage
 from fastapi import FastAPI
+
+import streamlit as st
 
 load_dotenv()
 brwoserless_api_key = os.getenv("BROWSERLESS_API_KEY")
@@ -86,8 +88,7 @@ def scrape_website(objective: str, url: str):
 def summary(objective, content):
     llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-16k-0613")
 
-    text_splitter = RecursiveCharacterTextSplitter(
-        separators=["\n\n", "\n"], chunk_size=10000, chunk_overlap=500)
+    text_splitter = RecursiveCharacterTextSplitter(separators=["\n\n", "\n"], chunk_size=10000, chunk_overlap=500)
     docs = text_splitter.create_documents([content])
     map_prompt = """
     Write a summary of the following text for {objective}:
@@ -172,35 +173,20 @@ agent = initialize_agent(
 
 
 # 4. Use streamlit to create a web app
-# def main():
-#     st.set_page_config(page_title="AI research agent", page_icon=":bird:")
+def main():
+    st.set_page_config(page_title="AI research agent", page_icon=":bird:")
 
-#     st.header("AI research agent :bird:")
-#     query = st.text_input("Research goal")
+    st.header("AI Blogger :blog:")
+    query = st.text_input("Blog Topic")
 
-#     if query:
-#         st.write("Doing research for ", query)
+    if query:
+        st.write("Doing research for ", query)
 
-#         result = agent({"input": query})
+        result = agent({"input": query})
 
-#         st.info(result['output'])
-
-
-# if __name__ == '__main__':
-#     main()
+        st.info(result['output'])
 
 
-# 5. Set this as an API endpoint via FastAPI
-app = FastAPI()
+if __name__ == '__main__':
+    main()
 
-
-class Query(BaseModel):
-    query: str
-
-
-@app.post("/")
-def researchAgent(query: Query):
-    query = query.query
-    content = agent({"input": query})
-    actual_content = content['output']
-    return actual_content
